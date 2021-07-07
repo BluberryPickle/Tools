@@ -5,17 +5,19 @@
 import requests
 import fun  #the file with the functions
 
-url = input("Enter url: ")
+url = input("Enter URL: ")
 r = requests.get(url)
-print("status : ",r.status_code) # prints http status code to check if the site is up
+print("Status : ",r.status_code) # prints http status code to check if the site is up
 
-characters=[]
-characters.append(fun.escape(url,"?id"))
-if not characters :
-    print("Unable to execute time based sql inections")
+param = input("Enter URL parameter :") #The parameter to be used while injecting
+
+character = fun.escape(url,"?"+param)
+print(character)
+if not character :
+    print("Unable to execute sql inections")
 else :
     print("Trying to bruteforce information")
-    fun.bruteforce()
+    fun.bruteforce(character)
 
 
 
