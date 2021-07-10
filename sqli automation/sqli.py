@@ -12,12 +12,12 @@ print("Status : ",r.status_code) # prints http status code to check if the site 
 param = input("Enter URL parameter :") #The parameter to be used while injecting
 
 character = fun.escape(url,"?"+param)
-print(character)
 if not character :
     print("Unable to execute sql inections")
 else :
     print("Trying to bruteforce information")
-    fun.bruteforce(character)
+    print("Please wait this might take a while...")
+    fun.bruteforce(character,param,url)
 
 
 
